@@ -1,8 +1,8 @@
 @echo off
 rem # CreateExcelObjec.bat
 echo 以下のファイルを生成します。
-echo test.xlsx
-echo text_write_test.txt
+echo MultiplicationTable.xlsx
+echo MultiplicationTable.txt
 
 echo resultフォルダを作成します。
 mkdir result
