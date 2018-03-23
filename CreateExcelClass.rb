@@ -30,7 +30,7 @@ class Execution
         file = fso.GetAbsolutePathName("./result/MultiplicationTable.xlsx")
 
         app = createExcelobject
-        readExcelWprkbook(app,file)
+        readExcelWorkbook(app,file)
 
         app.quit()
     end
