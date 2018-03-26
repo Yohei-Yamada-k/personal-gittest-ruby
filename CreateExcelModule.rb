@@ -40,8 +40,17 @@ module Excelmodule
 
   # シートにワークシートの１を指定
   sheets = book.sheets(1)
-    range=sheets.range('A1:J10')
+  # 罫線の範囲テーブル
+    range = sheets.range('A1:J10')
+  # 背景色の範囲テーブル
+    range_row = sheets.range('B1:J1')
+    range_cal = sheets.range('A1:A10')
+    
+  # 罫線を引く
     range.borders.lineStyle = EXCEL_CONST::XlContinuous
+  # 背景色を塗る
+    range_row.interior.themeColor = EXCEL_CONST::XlThemeColorAccent1
+    range_cal.interior.themeColor = EXCEL_CONST::XlThemeColorAccent1
 
   # 九九の行列マトリクスを生成
   (1..9).each do |i|
@@ -73,12 +82,13 @@ module Excelmodule
   File.open("MultiplicationTable.txt","w") do |text|
    (2..10).each do |j|
     array_col = book.sheets(1).Cells(j, 1).Value
-    text.puts array_col
+     text.puts array_col.to_i.to_s + "TimesTable"
+         
    array_row = []
      (1..10).each do |i|
       array_row = array_row.push(book.sheets(1).Cells(j, 1+i).Value)
      end
-      text.puts array_row.join(",")
+      text.puts array_row.map{|a| a.to_i }.join(",")
    end
   end
   
