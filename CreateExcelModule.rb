@@ -5,6 +5,8 @@
 #変更日 ：2018.03.22
 
 require 'win32ole'
+require 'bigdecimal'
+require 'bigdecimal/util'  #<= to_d メソッドが使えるようになる
 
  # ----------------------------------------------------
  # ExcelVBAの定数ロードに関するModule
@@ -38,8 +40,17 @@ module Excelmodule
 
   # シートにワークシートの１を指定
   sheets = book.sheets(1)
-    range=sheets.range('A1:J10')
+  # 罫線の範囲テーブル
+    range = sheets.range('A1:J10')
+  # 背景色の範囲テーブル
+    range_row = sheets.range('B1:J1')
+    range_cal = sheets.range('A1:A10')
+    
+  # 罫線を引く
     range.borders.lineStyle = EXCEL_CONST::XlContinuous
+  # 背景色を塗る
+    range_row.interior.themeColor = EXCEL_CONST::XlThemeColorAccent1
+    range_cal.interior.themeColor = EXCEL_CONST::XlThemeColorAccent1
 
   # 九九の行列マトリクスを生成
   (1..9).each do |i|
@@ -61,28 +72,27 @@ module Excelmodule
  # ----------------------------------------------------
  # ExcelFileをReadする
  # ----------------------------------------------------
- def readExcelWprkbook(app, file)
+ def readExcelWorkbook(app, file)
  book = app.Workbooks.Open(file)
   
-  # カレントディレクトリの変更
+ # カレントディレクトリの変更
   Dir.chdir("result")
+  
+ # Excelのマトリクスを読み込むためのloop処理 
   File.open("MultiplicationTable.txt","w") do |text|
-   book.ActiveSheet.UsedRange.Rows.each do |row|
-    row.Columns.each do |cell|
-
-    ary = cell.Address.to_a
-    ary2 = row.Value.to_a     
-     #ary = cell.Address.to_a
-    text.puts ary.join(",")
-    text.puts ary2.join(",")
-     # text.puts cell.Address
-     # text.puts cell.Value
-     # text.puts '--'
-    end
+   (2..10).each do |j|
+    array_col = book.sheets(1).Cells(j, 1).Value
+     text.puts array_col.to_i.to_s + "TimesTable"
+         
+   array_row = []
+     (1..10).each do |i|
+      array_row = array_row.push(book.sheets(1).Cells(j, 1+i).Value)
+     end
+      text.puts array_row.map{|a| a.to_i }.join(",")
    end
   end
   
-  # ファイルを閉じる
+ # ファイルを閉じる
   book.Close
  end
 end

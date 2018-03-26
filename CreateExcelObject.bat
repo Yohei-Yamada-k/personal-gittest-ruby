@@ -1,10 +1,12 @@
 @echo off
 rem # CreateExcelObjec.bat
-echo 以下のファイルを生成します。
-echo test.xlsx
-echo text_write_test.txt
+echo 以下のフォルダを生成します。
+echo result
 
-echo resultフォルダを作成します。
+echo 以下のファイルを生成します。
+echo MultiplicationTable.xlsx
+echo MultiplicationTable.txt
+
 mkdir result
 
 ruby ExecutionCmd.rb
