@@ -2,7 +2,7 @@
 # ExcelOpen_Moduleを生成するClass
 #Original Author    Yamada
 #変更者：Yamada
-#変更日 ：2018.03.22
+#変更日 ：2018.07.11
 
 require 'win32ole'
 require './CreateExcelModule.rb'
